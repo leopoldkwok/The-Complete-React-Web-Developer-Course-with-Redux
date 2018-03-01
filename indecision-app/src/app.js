@@ -14,66 +14,55 @@ console.log('App.js is running!');
 const app = {
   title: 'Indecision App',
   subtitle: 'Put your life in the hands of a computer',
-  options: ['One', 'Two']
+  options: []
 };
 
-// JSX - Javascript XML
-const template = (
-  <div>
-    <h1>{app.title}</h1>
-    {app.subtitle && <p>{app.subtitle}</p>}
-    <p>{app.options.length > 0 ? 'Here are your options' : 'No Options'}</p>
-    <ol>
-      <li>Item One</li>
-      <li>Item Two</li>
-    </ol>
-  </div>
-);
+const onFormSubmit = (e) => {
+  e.preventDefault();
 
-// Challenge
-// Make button "-1" - setup minusOne function and register - log "minusOne"
-// Make reset button "reset" - setup reset function - log "reset"
+  const option = e.target.elements.option.value;
 
-let count = 0;
-const addOne = () => {
-  count++;
-  renderCounterApp();
-};
-const minusOne = () => {
-  // subtract 1 from count - rerender
-  count--;
-  renderCounterApp();
-};
-const reset = () => {
-  // set count to 0 a rerender
-  count = 0;
-  renderCounterApp();
+  if(option) {
+    app.options.push(option);
+    e.target.elements.option.value = '';
+    render();
+  }
 };
 
-const templateTwo = (
-  <div>
-    <h1>Count: {count}</h1>
-    <button onClick={addOne}>+1</button>
-    <button onClick={minusOne}>-1</button>
-    <button onClick={reset}>reset</button>
-  </div>
-);
+// Create "Remove All" button above list
+// onclick -> wipe the array -> rerender
+
+const onRemoveAll = () => {
+  app.options = [];
+  render();
+};
+
+// create render function that renders the new jsx
+// Call it right away
+// Call it after options array added to
 
 const appRoot = document.getElementById('app');
 
-ReactDOM.render(templateTwo, appRoot);
-
-const renderCounterApp = () => {
-  const templateTwo = (
+// JSX - Javascript XML
+const render = () => {
+  const template = (
     <div>
-      <h1>Count: {count}</h1>
-      <button onClick={addOne}>+1</button>
-      <button onClick={minusOne}>-1</button>
-      <button onClick={reset}>reset</button>
+      <h1>{app.title}</h1>
+      {app.subtitle && <p>{app.subtitle}</p>}
+      <p>{app.options.length > 0 ? 'Here are your options' : 'No Options'}</p>
+      <p>{app.options.length}</p>
+      <button onClick={onRemoveAll}>Remove All</button>
+      <ol>
+        <li>Item One</li>
+        <li>Item Two</li>
+      </ol>
+      <form onSubmit={onFormSubmit}>
+        <input type="text" name="option"/>
+        <button>Add Option</button>
+      </form>
     </div>
   );
-
-  ReactDOM.render(templateTwo, appRoot);
+  ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+render();
