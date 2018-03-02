@@ -47,11 +47,15 @@ class Action extends React.Component {
 // setup onClick to fire the method
 
 class Options extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleRemoveAll = this.handleRemoveAll.bind(this);
+  }
   handleRemoveAll() {
-    alert('handleRemoveAll')
+    console.log(this.props.options);
+    //alert('handleRemoveAll');
   }
   render() {
-
     return (
       <div>
         <button onClick={this.handleRemoveAll}>Remove All</button>
